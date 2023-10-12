@@ -6,7 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace CommandInterpreter.Command {
-
+    [Permission(PermissionType.User)]
     [Description("clear", "Clears prompt")]
     internal class CClear : ICommand {
         public void Execute(string[] args) {

@@ -6,8 +6,7 @@ using System.Threading.Tasks;
 
 namespace CommandInterpreter.CommandUitls {
     internal enum PermissionType {
-        All,
-        Sudoer,
-        User
+        User,
+        Sudoer
     }
 }

@@ -1,5 +1,6 @@
 ﻿using CommandInterpreter.Command;
 using CommandInterpreter.CommandUitls;
+using CommandInterpreter.UserCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,17 +12,21 @@ namespace CommandInterpreter.Core {
         private CommandCollection CommandCollection { get; set; }
         private CommandTrimmer CommandTrimmer { get; set; }
 
-        public Interpreter() { 
-            CommandCollection = new CommandCollection();
+        private User User { get; set; }
+
+        public Interpreter(User user) {
+            User = user;
+
+            CommandCollection = new CommandCollection(User);
             CommandTrimmer = new CommandTrimmer();
             InitializeCommands();
         }
 
         public void Start() {
             do {
-                Console.Write(">> ");
-                string? _input = Console.ReadLine();
-                string input = _input == null ? string.Empty : _input;
+                WritePrompt();
+
+                string input = InputHandler.GetInput();
 
                 CommandModel commandModel = CommandTrimmer.TrimInput(input);
 
@@ -30,12 +35,20 @@ namespace CommandInterpreter.Core {
         }
 
         private void InitializeCommands() {
-            CommandCollection.AddCommand("help", new CHelp());
             CommandCollection.AddCommand("clear", new CClear());
+            CommandCollection.AddCommand("help", new CHelp(CommandCollection.Commands));
         }
 
         private void Interpret(string commandName, string[] args) {
             CommandCollection.ExecuteCommand(commandName, args);
+        }
+
+        private void WritePrompt() {
+            Console.Write($"[");
+            Console.ForegroundColor = Colors.PermissionColors[User.PermissionType];
+            Console.Write(User.Name);
+            Console.ResetColor();
+            Console.Write("] >> ");
         }
     }
 }
