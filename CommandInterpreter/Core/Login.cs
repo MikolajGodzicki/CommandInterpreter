@@ -8,14 +8,20 @@ using System.Threading.Tasks;
 namespace CommandInterpreter.Core {
     internal class Login {
         public User Start() {
-            Console.Write("Login: ");
-            string loginInput = InputHandler.GetInput();
-            Console.Write("Password: ");
-            string passwordInput = InputHandler.GetInput();
+            User? user;
+            do {
+                Console.Write("Login: ");
+                string loginInput = InputHandler.GetInput();
+                Console.Write("Password: ");
+                string passwordInput = InputHandler.GetInput();
+
+                LoginData loginData = new LoginData(loginInput, passwordInput);
+
+                user = UsersData.Instance.Users.FirstOrDefault(e => e.LoginData.Equals(loginData));
+            } while (user == null);
 
 
-
-            return new User();
+            return user;
         }
     }
 }

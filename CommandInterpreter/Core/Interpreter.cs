@@ -14,11 +14,15 @@ namespace CommandInterpreter.Core {
 
         private User User { get; set; }
 
+        public static string logicPath = "usr\\bin";
+        public static string osPath = $"{FileManager.GetCurrentDirectoryName()}";
+
         public Interpreter(User user) {
             User = user;
 
             CommandCollection = new CommandCollection(User);
             CommandTrimmer = new CommandTrimmer();
+
             InitializeCommands();
         }
 

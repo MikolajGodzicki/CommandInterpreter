@@ -14,5 +14,13 @@ namespace CommandInterpreter.UserCore {
             Login = login;
             Password = password;
         }
+
+        public override bool Equals(object? obj) {
+            LoginData data = obj as LoginData;
+            if (data == null) return false;
+            if (data.Login == Login && data.Password == Password) return true;
+
+            return false;
+        }
     }
 }

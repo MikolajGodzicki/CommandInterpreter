@@ -17,5 +17,16 @@ namespace CommandInterpreter.UserCore {
             PermissionType = permissionType;
             LoginData = loginData;
         }
+
+        public User(string data) {
+            string[] _data = data.Split(':');
+            Name = _data[0];
+            LoginData = new LoginData(_data[1], _data[2]);
+            PermissionType = (PermissionType) int.Parse(_data[3]);
+        }
+
+        public override string ToString() {
+            return $"{Name}:{LoginData.Login}:{LoginData.Password}:{PermissionType}";
+        }
     }
 }

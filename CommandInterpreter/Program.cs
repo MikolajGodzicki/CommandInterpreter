@@ -4,6 +4,10 @@ using CommandInterpreter.UserCore;
 namespace CommandInterpreter {
     internal class Program {
         static void Main(string[] args) {
+
+            Initializer initializer = new Initializer();
+            initializer.Initialize();
+
             Login login = new Login();
             User user = login.Start();
 
