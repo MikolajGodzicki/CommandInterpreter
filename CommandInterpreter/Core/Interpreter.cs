@@ -12,9 +12,9 @@ namespace CommandInterpreter.Core {
         private CommandCollection CommandCollection { get; set; }
         private CommandTrimmer CommandTrimmer { get; set; }
 
-        private User User { get; set; }
+        public User User { get; set; }
 
-        public static string logicPath = "usr\\bin";
+        public static string logicPath = "\\core";
         public static string osPath = $"{FileManager.GetCurrentDirectoryName()}";
 
         public Interpreter(User user) {
@@ -41,6 +41,9 @@ namespace CommandInterpreter.Core {
         private void InitializeCommands() {
             CommandCollection.AddCommand("clear", new CClear());
             CommandCollection.AddCommand("help", new CHelp(CommandCollection.Commands));
+            CommandCollection.AddCommand("passwd", new CPasswd());
+            CommandCollection.AddCommand("login", new CLogin(this));
+            CommandCollection.AddCommand("ls", new CLs());
         }
 
         private void Interpret(string commandName, string[] args) {
@@ -49,9 +52,7 @@ namespace CommandInterpreter.Core {
 
         private void WritePrompt() {
             Console.Write($"[");
-            Console.ForegroundColor = Colors.PermissionColors[User.PermissionType];
-            Console.Write(User.Name);
-            Console.ResetColor();
+            ConsoleWriter.Write(User.LoginData.Login, Colors.PermissionColors[User.PermissionType]);
             Console.Write("] >> ");
         }
     }

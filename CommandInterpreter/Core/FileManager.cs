@@ -16,7 +16,7 @@ namespace CommandInterpreter.Core {
             CreateDirectory($"{GetCurrentDirectoryName()}\\core\\etc");
 
             //files
-            CreateUsersFile("Root:root:123:1");
+            CreateUsersFile("root:123:1");
         }
 
         private static void CreateDirectory(string path) {
@@ -34,7 +34,7 @@ namespace CommandInterpreter.Core {
         private static void CreateUsersFile(string data) {
             string path = $"{GetCurrentDirectoryName()}\\core\\etc\\users.bin";
             if (!File.Exists(path)) {
-                                       //name:login:password:permission
+                                       //login:password:permission
                 File.WriteAllText(path, data);
             }
         }
@@ -55,6 +55,14 @@ namespace CommandInterpreter.Core {
             }
 
             return path;
+        }
+
+        public static IEnumerable<string> GetFiles() {
+            return Directory.EnumerateFiles(GetCurrentDirectoryName() + Interpreter.logicPath).Select(e => e.Split("\\").Last());
+        }
+
+        public static IEnumerable<string> GetDirectories() {
+            return Directory.EnumerateDirectories(GetCurrentDirectoryName() + Interpreter.logicPath).Select(e => e.Split("\\").Last());
         }
     }
 }

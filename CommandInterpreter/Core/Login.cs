@@ -7,17 +7,36 @@ using System.Threading.Tasks;
 
 namespace CommandInterpreter.Core {
     internal class Login {
-        public User Start() {
+        public static User Start() {
             User? user;
             do {
-                Console.Write("Login: ");
-                string loginInput = InputHandler.GetInput();
-                Console.Write("Password: ");
-                string passwordInput = InputHandler.GetInput();
+                string loginInput = InputHandler.GetInput("Login: ");
+                string passwordInput = InputHandler.GetInput("Password: ");
 
                 LoginData loginData = new LoginData(loginInput, passwordInput);
 
                 user = UsersData.Instance.Users.FirstOrDefault(e => e.LoginData.Equals(loginData));
+                if (user == null) {
+                    ConsoleWriter.WriteLine("Incorrect login data.", ConsoleColor.Red);
+                }
+            } while (user == null);
+
+
+            return user;
+        }
+
+        public static User Start(string login) {
+            User? user;
+            do {
+                string loginInput = login;
+                string passwordInput = InputHandler.GetInput("Password: ");
+
+                LoginData loginData = new LoginData(loginInput, passwordInput);
+
+                user = UsersData.Instance.Users.FirstOrDefault(e => e.LoginData.Equals(loginData));
+                if (user == null) {
+                    ConsoleWriter.WriteLine("Incorrect login data.", ConsoleColor.Red);
+                }
             } while (user == null);
 
 

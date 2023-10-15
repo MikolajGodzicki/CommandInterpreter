@@ -15,6 +15,11 @@ namespace CommandInterpreter.Command {
         }
 
         public void Execute(string[] args) {
+            if (args.Length != 0) {
+                Console.WriteLine("Command doesn't use any arguments.");
+                return; 
+            }
+            
             foreach (var command in Commands) {
                 object[] descriptions = command.Value.GetType().GetCustomAttributes(false);
                 foreach (object desc in descriptions) {

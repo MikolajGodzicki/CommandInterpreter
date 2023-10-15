@@ -8,8 +8,7 @@ namespace CommandInterpreter {
             Initializer initializer = new Initializer();
             initializer.Initialize();
 
-            Login login = new Login();
-            User user = login.Start();
+            User user = Login.Start();
 
             Interpreter interpreter = new Interpreter(user);
             interpreter.Start();
