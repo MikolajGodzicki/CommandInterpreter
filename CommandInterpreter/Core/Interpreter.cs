@@ -14,8 +14,9 @@ namespace CommandInterpreter.Core {
 
         public User User { get; set; }
 
-        public static string logicPath = "\\core";
-        public static string osPath = $"{FileManager.GetCurrentDirectoryName()}";
+        public static string logicPath = "";
+        public static string osPath = "";
+        public static string corePath = $"{FileManager.GetCurrentDirectoryName()}\\core";
 
         public Interpreter(User user) {
             User = user;
@@ -28,12 +29,11 @@ namespace CommandInterpreter.Core {
 
         public void Start() {
             do {
+                osPath = $"{FileManager.GetCurrentDirectoryName()}\\core{logicPath}";
+
                 WritePrompt();
-
                 string input = InputHandler.GetInput();
-
                 CommandModel commandModel = CommandTrimmer.TrimInput(input);
-
                 Interpret(commandModel.Name, commandModel.Args);
             } while(true);
         }
@@ -44,6 +44,10 @@ namespace CommandInterpreter.Core {
             CommandCollection.AddCommand("passwd", new CPasswd());
             CommandCollection.AddCommand("login", new CLogin(this));
             CommandCollection.AddCommand("ls", new CLs());
+            CommandCollection.AddCommand("cd", new CCd());
+            CommandCollection.AddCommand("touch", new CTouch());
+            CommandCollection.AddCommand("mkdir", new CMkdir());
+            CommandCollection.AddCommand("mv", new CMv());
         }
 
         private void Interpret(string commandName, string[] args) {
@@ -51,6 +55,7 @@ namespace CommandInterpreter.Core {
         }
 
         private void WritePrompt() {
+            Console.Write($"{logicPath} ");
             Console.Write($"[");
             ConsoleWriter.Write(User.LoginData.Login, Colors.PermissionColors[User.PermissionType]);
             Console.Write("] >> ");

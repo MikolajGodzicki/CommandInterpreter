@@ -51,18 +51,18 @@ namespace CommandInterpreter.Core {
         public static string GetCurrentDirectoryName() {
             string? path = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
             if (path == null) {
-                return String.Empty;
+                return string.Empty;
             }
 
             return path;
         }
 
         public static IEnumerable<string> GetFiles() {
-            return Directory.EnumerateFiles(GetCurrentDirectoryName() + Interpreter.logicPath).Select(e => e.Split("\\").Last());
+            return Directory.EnumerateFiles(Interpreter.osPath).Select(e => e.Split("\\").Last());
         }
 
         public static IEnumerable<string> GetDirectories() {
-            return Directory.EnumerateDirectories(GetCurrentDirectoryName() + Interpreter.logicPath).Select(e => e.Split("\\").Last());
+            return Directory.EnumerateDirectories(Interpreter.osPath).Select(e => e.Split("\\").Last());
         }
     }
 }
